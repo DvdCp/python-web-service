@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
-from model.model import insert_string
-from utils.utils import calculateDecimalAsciiValue
+from model.model import insertString
 
 app = Flask(__name__)
 
@@ -10,12 +9,9 @@ def submitString():
     try:
         data = request.json # Access JSON data from the POST request ("data" is the single string)
 
-        asciiValue = calculateDecimalValue(literalString=data)
-
         print('Received stiring: ', data, flush=True)
-        print('ASCII decimal value: ', asciiValue, '\n\n', flush=True)
 
-        insert_string(data, asciiValue)
+        insertString(data)
 
         response_data = {"message": "Data received and processed successfully"}
         return jsonify(response_data)
