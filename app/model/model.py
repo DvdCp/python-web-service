@@ -9,18 +9,23 @@ def insertString (literalString):
     cursor = connection.cursor()
 
     decimalValue = calculateDecimalValue(literalString)
-    insertEvenOrOddValue(decimalValue)
+    evenOrOddRowId, isOdd = insertEvenOrOddValue(decimalValue)
 
     # octValue = calculateOctValue(literalString)
     # hexValue = calculateHexValue(literalString)
     # binValue = calculateBinValue(literalString)
 
-    add_asciivalue = ("INSERT INTO alphastrings "
-    "(alphaValue) "
-    "VALUES (%s)")
+    if isOdd:
+        add_asciivalue = ("INSERT INTO alphastrings "
+            "(alphaValue, oddValueId) "
+            "VALUES (%s, %s)")
+    else:
+        add_asciivalue = ("INSERT INTO alphastrings "
+            "(alphaValue, evenValueId) "
+            "VALUES (%s, %s)")
 
     try:  
-        cursor.execute(add_asciivalue, (literalString,))
+        cursor.execute(add_asciivalue, (literalString, evenOrOddRowId))
     except Exception as err:
         print('insertString: ', err, flush=True)
     finally:
@@ -33,6 +38,7 @@ def insertEvenOrOddValue (decimalValue):
     user='root', password='root', host='mysql', port="3306", database='db')
 
     cursor = connection.cursor()
+    isOdd = False;
 
     if (decimalValue % 2) == 0:
         add_asciivalue = ("INSERT INTO evenvalues "
@@ -42,12 +48,15 @@ def insertEvenOrOddValue (decimalValue):
         add_asciivalue = ("INSERT INTO oddvalues "
             "(decimalOddValue) "
             "VALUES (%s)")
+        isOdd = True
 
     try:  
-        item = cursor.execute(add_asciivalue, (decimalValue,))
-        print(item, flush=True)
+        cursor.execute(add_asciivalue, (decimalValue,))
+        lastId = cursor.lastrowid
     except Exception as err:
         print('insertEvenOrOddValue: ', err, flush=True)
     finally:
         connection.commit()
+    
     connection.close()
+    return (lastId, isOdd)
