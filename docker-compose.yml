@@ -1,0 +1,21 @@
+services:
+  app:
+    build: ./app/
+    command: sh -c "sleep 10s ; python3 ./server.py"
+    ports:
+      - 5000:5000
+    depends_on:
+      - mysql
+
+  mysql:
+    build: ./schema/
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+
+    volumes:
+      - ./schema/:/docker-entrypoint-initdb.d
+

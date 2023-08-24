@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+from model.model import insert_string
+from utils.utils import calculateDecimalAsciiValue
 
 app = Flask(__name__)
 
@@ -6,16 +8,15 @@ app = Flask(__name__)
 @app.route('/submitString', methods=['POST'])
 def submitString():
     try:
-        data = request.json  # Access JSON data from the POST request ("data" is the single string)
-        asciiValue = 0
+        data = request.json # Access JSON data from the POST request ("data" is the single string)
 
-        # Calculatinf ASCII value for the received string 
-        for char in data:
-            asciiValue += ord(char)
+        asciiValue = calculateDecimalValue(literalString=data)
 
-        print('Received stiring: ', data)
-        print('ASCII decimal value: ', asciiValue, '\n\n')
-        
+        print('Received stiring: ', data, flush=True)
+        print('ASCII decimal value: ', asciiValue, '\n\n', flush=True)
+
+        insert_string(data, asciiValue)
+
         response_data = {"message": "Data received and processed successfully"}
         return jsonify(response_data)
     except Exception as e:
@@ -28,4 +29,4 @@ def get_data():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
