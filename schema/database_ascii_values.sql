@@ -14,19 +14,19 @@ CREATE TABLE oddvalues (
 
 CREATE TABLE octvalues (
     id int not null AUTO_INCREMENT,
-    octValue int not null,
+    octValue varchar(40) not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE hexvalues (
     id int not null AUTO_INCREMENT,
-    hexValue int not null,
+    hexValue varchar(40) not null,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE binvalues (
     id int not null AUTO_INCREMENT,
-    binValue int not null,
+    binValue varchar(40) not null,
     PRIMARY KEY (id)
 );
 

@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from model.model import insertString
+from model.model import insertStringIntoDb
 
 app = Flask(__name__)
 
@@ -11,10 +11,11 @@ def submitString():
 
         print('Received stiring: ', data, flush=True)
 
-        insertString(data)
+        insertStringIntoDb(data)
 
         response_data = {"message": "Data received and processed successfully"}
         return jsonify(response_data)
+    
     except Exception as e:
         return jsonify({"error": str(e)})
 
