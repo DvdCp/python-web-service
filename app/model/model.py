@@ -5,7 +5,6 @@ def connectToDb(user='root', password='root', host='mysql', port="3306", databas
     try:
         connection = connector.connect( 
             user=user, password=password, host=host, port=port, database=database )
-        print('Connected to DB', flush=True)
     except Exception as err:
         print('connectToDb: ', err, flush=True)
 
