@@ -38,6 +38,7 @@ def insertStringIntoDb(literalString):
             "VALUES (%s, %s, %s, %s, %s)")
 
     try:  
+        print("INFO: query INSERT: ", add_asciivalue, flush=True)
         cursor.execute(add_asciivalue, (literalString, evenOrOddRowId, octRowId, hexRowId, binRowId))
 
     except Exception as err:
@@ -46,7 +47,6 @@ def insertStringIntoDb(literalString):
     finally:
         connection.commit()
         connection.close()
-
 
 def insertEvenOrOddValueIntoDb (decimalValue):
 
@@ -143,3 +143,25 @@ def insertBinValueIntoDb (binValue):
         connection.close()
     
         return lastId
+
+def selectStringFromDb (stringToSearch):
+
+    connection = connectToDb()
+    cursor = connection.cursor()
+
+    query = "SELECT * from alphastrings WHERE alphaValue = %s"
+
+    try:  
+        print("INFO: query SELECT: ", query, flush=True)
+        cursor.execute(query, (stringToSearch,))
+        result = cursor.fetchall()
+            
+        print("INFO: data fetched: ", result, flush=True)
+
+    except Exception as err:
+        print('selectStringFromDb: ', err, flush=True)
+
+    finally:
+        connection.close()
+        return result
+    
