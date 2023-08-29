@@ -1,3 +1,7 @@
+networks:
+  myNet:
+    name: myNet
+
 services:
   app:
     build: ./app/
@@ -6,6 +10,8 @@ services:
       - 5000:5000
     depends_on:
       - mysql
+    networks:
+      - myNet
 
   mysql:
     build: ./schema/
@@ -18,4 +24,8 @@ services:
 
     volumes:
       - ./schema/:/docker-entrypoint-initdb.d
+
+    networks:
+      - myNet
+
 
