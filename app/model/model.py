@@ -1,5 +1,6 @@
 from mysql import connector
 from utils.utils import *
+import json
 
 def connectToDb(user='root', password='root', host='mysql', port="3306", database='db'):
     try:
@@ -147,7 +148,7 @@ def insertBinValueIntoDb (binValue):
 def selectStringFromDb (stringToSearch):
 
     connection = connectToDb()
-    cursor = connection.cursor()
+    cursor = connection.cursor(dictionary=True)
 
     query = "SELECT * from alphastrings WHERE alphaValue = %s"
 
