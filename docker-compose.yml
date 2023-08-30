@@ -3,7 +3,7 @@ networks:
     name: myNet
 
 services:
-  app:
+  python-web-service:
     build: ./app/
     command: sh -c "sleep 10s ; python3 ./server.py"
     ports:
